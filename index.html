@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$XI — The People's Coin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+SC:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #CC0000;
+    --gold: #FFD700;
+    --dark-red: #8B0000;
+    --cream: #FFF8E7;
+    --dark: #0A0A0A;
+    --star-gold: #FFDB3A;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: var(–dark);
+color: var(–cream);
+font-family: ‘Space Mono’, monospace;
+overflow-x: hidden;
+cursor: crosshair;
+}
+
+/* Noise overlay */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 9999;
+opacity: 0.3;
+}
+
+/* Hero Section */
+.hero {
+min-height: 100vh;
+background: linear-gradient(180deg, #1a0000 0%, #CC0000 40%, #8B0000 100%);
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+padding: 40px 20px;
+}
+
+/* Stars pattern - Chinese flag inspired */
+.stars-bg {
+position: absolute;
+top: 0; left: 0; right: 0; bottom: 0;
+overflow: hidden;
+}
+
+.star-pattern {
+position: absolute;
+top: 30px;
+left: 30px;
+display: grid;
+grid-template-columns: repeat(20, 40px);
+grid-template-rows: repeat(20, 40px);
+opacity: 0.07;
+}
+
+.star-pattern span {
+color: var(–gold);
+font-size: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* Floating characters */
+.float-char {
+position: absolute;
+font-family: ‘Noto Serif SC’, serif;
+font-size: clamp(80px, 15vw, 200px);
+font-weight: 900;
+color: var(–gold);
+opacity: 0.04;
+animation: drift 20s ease-in-out infinite;
+pointer-events: none;
+}
+
+.float-char:nth-child(1) { top: 5%; left: -5%; animation-delay: 0s; }
+.float-char:nth-child(2) { top: 50%; right: -5%; animation-delay: -7s; }
+.float-char:nth-child(3) { bottom: 5%; left: 30%; animation-delay: -13s; }
+
+@keyframes drift {
+0%, 100% { transform: translateY(0) rotate(-3deg); }
+50% { transform: translateY(-30px) rotate(3deg); }
+}
+
+/* Ticker tape */
+.ticker-wrap {
+width: 100%;
+background: var(–gold);
+color: var(–dark);
+padding: 10px 0;
+overflow: hidden;
+position: absolute;
+top: 0;
+white-space: nowrap;
+}
+
+.ticker-content {
+display: inline-block;
+animation: ticker 20s linear infinite;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 18px;
+letter-spacing: 3px;
+}
+
+@keyframes ticker {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
+}
+
+/* Main logo */
+.coin-wrapper {
+position: relative;
+margin-bottom: 30px;
+animation: float-coin 3s ease-in-out infinite;
+}
+
+@keyframes float-coin {
+0%, 100% { transform: translateY(0) rotate(-1deg); }
+50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+.coin {
+width: 180px;
+height: 180px;
+border-radius: 50%;
+background: radial-gradient(circle at 35% 35%, #FFF5A0, #FFD700 40%, #B8860B 80%, #8B6914);
+border: 6px solid #8B6914;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Noto Serif SC’, serif;
+font-size: 80px;
+font-weight: 900;
+color: #8B0000;
+box-shadow:
+0 0 0 3px #FFD700,
+0 0 40px rgba(255, 215, 0, 0.6),
+0 20px 60px rgba(0,0,0,0.5),
+inset 0 2px 10px rgba(255,255,255,0.4);
+text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+position: relative;
+}
+
+.coin::after {
+content: ‘★’;
+position: absolute;
+top: 12px;
+right: 22px;
+font-size: 20px;
+color: var(–red);
+text-shadow: none;
+}
+
+/* Tagline */
+.hero-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(60px, 15vw, 140px);
+letter-spacing: 8px;
+color: var(–gold);
+text-shadow:
+0 0 40px rgba(255,215,0,0.4),
+4px 4px 0 var(–dark-red);
+line-height: 0.9;
+text-align: center;
+margin-bottom: 10px;
+}
+
+.hero-sub {
+font-family: ‘Noto Serif SC’, serif;
+font-size: clamp(14px, 3vw, 22px);
+color: var(–gold);
+opacity: 0.85;
+letter-spacing: 6px;
+text-align: center;
+margin-bottom: 40px;
+text-transform: uppercase;
+}
+
+.hero-desc {
+font-size: 13px;
+color: rgba(255,248,231,0.8);
+text-align: center;
+max-width: 500px;
+line-height: 1.8;
+margin-bottom: 50px;
+letter-spacing: 1px;
+}
+
+/* CTA Buttons */
+.btns {
+display: flex;
+gap: 16px;
+flex-wrap: wrap;
+justify-content: center;
+margin-bottom: 60px;
+}
+
+.btn {
+padding: 14px 32px;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 20px;
+letter-spacing: 3px;
+text-decoration: none;
+border: none;
+cursor: pointer;
+transition: all 0.2s;
+position: relative;
+overflow: hidden;
+}
+
+.btn::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: rgba(255,255,255,0.2);
+transform: translateX(-100%) skewX(-15deg);
+transition: transform 0.3s;
+}
+
+.btn:hover::before {
+transform: translateX(100%) skewX(-15deg);
+}
+
+.btn-primary {
+background: var(–gold);
+color: var(–dark);
+box-shadow: 4px 4px 0 #8B6914, 0 0 20px rgba(255,215,0,0.3);
+}
+
+.btn-primary:hover {
+transform: translate(-2px, -2px);
+box-shadow: 6px 6px 0 #8B6914, 0 0 30px rgba(255,215,0,0.5);
+}
+
+.btn-secondary {
+background: transparent;
+color: var(–gold);
+border: 2px solid var(–gold);
+box-shadow: 4px 4px 0 rgba(255,215,0,0.3);
+}
+
+.btn-secondary:hover {
+background: rgba(255,215,0,0.1);
+transform: translate(-2px, -2px);
+box-shadow: 6px 6px 0 rgba(255,215,0,0.3);
+}
+
+/* Stats bar */
+.stats-bar {
+display: flex;
+gap: 0;
+border: 1px solid rgba(255,215,0,0.3);
+width: 100%;
+max-width: 700px;
+overflow: hidden;
+}
+
+.stat {
+flex: 1;
+padding: 16px 12px;
+text-align: center;
+border-right: 1px solid rgba(255,215,0,0.2);
+background: rgba(0,0,0,0.2);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-label {
+font-size: 9px;
+letter-spacing: 2px;
+color: rgba(255,248,231,0.5);
+text-transform: uppercase;
+margin-bottom: 4px;
+}
+
+.stat-value {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 26px;
+color: var(–gold);
+letter-spacing: 2px;
+}
+
+/* Diagonal divider */
+.diagonal {
+width: 100%;
+height: 80px;
+background: var(–dark);
+clip-path: polygon(0 100%, 100% 0, 100% 100%);
+margin-top: -1px;
+}
+
+/* About section */
+.section {
+padding: 80px 20px;
+max-width: 1100px;
+margin: 0 auto;
+}
+
+.section-label {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 11px;
+letter-spacing: 6px;
+color: var(–red);
+margin-bottom: 16px;
+text-transform: uppercase;
+}
+
+.section-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(40px, 8vw, 80px);
+letter-spacing: 4px;
+color: var(–cream);
+line-height: 1;
+margin-bottom: 40px;
+}
+
+.section-title span {
+color: var(–gold);
+}
+
+.manifesto {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 40px;
+align-items: start;
+}
+
+@media (max-width: 700px) {
+.manifesto { grid-template-columns: 1fr; }
+}
+
+.manifesto-text {
+font-size: 14px;
+line-height: 2;
+color: rgba(255,248,231,0.75);
+}
+
+.manifesto-text p {
+margin-bottom: 20px;
+}
+
+.quote-block {
+border-left: 3px solid var(–gold);
+padding-left: 24px;
+font-family: ‘Noto Serif SC’, serif;
+font-size: 18px;
+color: var(–gold);
+line-height: 1.8;
+margin: 20px 0;
+}
+
+/* Propaganda poster panel */
+.poster-panel {
+background: linear-gradient(135deg, #1a0000, #2d0000);
+border: 1px solid rgba(255,215,0,0.2);
+padding: 40px;
+position: relative;
+overflow: hidden;
+}
+
+.poster-panel::before {
+content: ‘习’;
+position: absolute;
+font-family: ‘Noto Serif SC’, serif;
+font-size: 200px;
+font-weight: 900;
+color: var(–red);
+opacity: 0.08;
+top: -20px;
+right: -20px;
+line-height: 1;
+}
+
+.poster-stars {
+color: var(–gold);
+font-size: 22px;
+letter-spacing: 4px;
+margin-bottom: 20px;
+opacity: 0.8;
+}
+
+.poster-title {
+font-family: ‘Noto Serif SC’, serif;
+font-size: 28px;
+font-weight: 900;
+color: var(–gold);
+margin-bottom: 16px;
+}
+
+.poster-body {
+font-size: 13px;
+line-height: 2;
+color: rgba(255,248,231,0.7);
+}
+
+/* Tokenomics */
+.tokenomics-section {
+background: #0d0000;
+padding: 80px 20px;
+border-top: 1px solid rgba(255,215,0,0.1);
+border-bottom: 1px solid rgba(255,215,0,0.1);
+}
+
+.token-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 2px;
+margin-top: 40px;
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.token-card {
+background: linear-gradient(135deg, #1a0000, #120000);
+border: 1px solid rgba(255,215,0,0.15);
+padding: 30px 20px;
+text-align: center;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+}
+
+.token-card::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 2px;
+background: var(–gold);
+transform: scaleX(0);
+transition: transform 0.3s;
+}
+
+.token-card:hover::after {
+transform: scaleX(1);
+}
+
+.token-card:hover {
+background: linear-gradient(135deg, #200000, #1a0000);
+transform: translateY(-4px);
+}
+
+.token-icon {
+font-size: 32px;
+margin-bottom: 12px;
+}
+
+.token-num {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 42px;
+color: var(–gold);
+letter-spacing: 2px;
+line-height: 1;
+}
+
+.token-label {
+font-size: 10px;
+letter-spacing: 3px;
+color: rgba(255,248,231,0.5);
+text-transform: uppercase;
+margin-top: 6px;
+}
+
+/* Roadmap */
+.roadmap {
+max-width: 900px;
+margin: 0 auto;
+padding: 80px 20px;
+}
+
+.road-items {
+margin-top: 50px;
+position: relative;
+}
+
+.road-items::before {
+content: ‘’;
+position: absolute;
+left: 30px;
+top: 0;
+bottom: 0;
+width: 1px;
+background: linear-gradient(180deg, var(–gold), transparent);
+}
+
+.road-item {
+display: grid;
+grid-template-columns: 60px 1fr;
+gap: 30px;
+margin-bottom: 50px;
+position: relative;
+}
+
+.road-num {
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background: var(–red);
+border: 2px solid var(–gold);
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 22px;
+color: var(–gold);
+z-index: 1;
+flex-shrink: 0;
+box-shadow: 0 0 20px rgba(204,0,0,0.4);
+}
+
+.road-content {
+padding-top: 12px;
+}
+
+.road-phase {
+font-size: 10px;
+letter-spacing: 4px;
+color: var(–red);
+margin-bottom: 6px;
+text-transform: uppercase;
+}
+
+.road-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 28px;
+color: var(–gold);
+letter-spacing: 2px;
+margin-bottom: 10px;
+}
+
+.road-desc {
+font-size: 13px;
+color: rgba(255,248,231,0.65);
+line-height: 1.8;
+}
+
+/* Social / footer */
+.footer-section {
+background: #050000;
+text-align: center;
+padding: 80px 20px 40px;
+border-top: 1px solid rgba(255,215,0,0.1);
+}
+
+.social-links {
+display: flex;
+gap: 20px;
+justify-content: center;
+margin: 30px 0 50px;
+}
+
+.social-link {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 12px 24px;
+border: 1px solid rgba(255,215,0,0.3);
+color: var(–gold);
+text-decoration: none;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 16px;
+letter-spacing: 2px;
+transition: all 0.2s;
+}
+
+.social-link:hover {
+background: rgba(255,215,0,0.1);
+border-color: var(–gold);
+transform: translateY(-2px);
+}
+
+.footer-logo {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 60px;
+color: var(–red);
+letter-spacing: 8px;
+opacity: 0.4;
+margin-top: 40px;
+}
+
+.disclaimer {
+font-size: 10px;
+color: rgba(255,248,231,0.25);
+max-width: 600px;
+margin: 20px auto 0;
+line-height: 1.8;
+letter-spacing: 0.5px;
+}
+
+/* Marquee bottom */
+.marquee-bottom {
+background: var(–red);
+padding: 12px 0;
+overflow: hidden;
+white-space: nowrap;
+border-top: 2px solid var(–gold);
+border-bottom: 2px solid var(–gold);
+}
+
+.marquee-content {
+display: inline-block;
+animation: ticker 25s linear infinite;
+font-family: ‘Noto Serif SC’, serif;
+font-size: 18px;
+color: var(–gold);
+letter-spacing: 4px;
+}
+
+/* Animate in */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(40px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.hero > * {
+animation: fadeUp 0.8s ease forwards;
+opacity: 0;
+}
+
+.ticker-wrap { animation: none; opacity: 1; }
+.coin-wrapper { animation-delay: 0.2s; }
+.hero-title { animation-delay: 0.4s; }
+.hero-sub { animation-delay: 0.5s; }
+.hero-desc { animation-delay: 0.6s; }
+.btns { animation-delay: 0.7s; }
+.stats-bar { animation-delay: 0.8s; }
+</style>
+
+</head>
+<body>
+
+<!-- HERO -->
+
+<section class="hero">
+  <!-- Ticker tape -->
+  <div class="ticker-wrap">
+    <div class="ticker-content">
+      $XI &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; LAUNCHED ON MOONSHOT &nbsp;·&nbsp; SOLANA BLOCKCHAIN &nbsp;·&nbsp; $XI &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; LAUNCHED ON MOONSHOT &nbsp;·&nbsp; SOLANA BLOCKCHAIN &nbsp;·&nbsp; $XI &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; LAUNCHED ON MOONSHOT &nbsp;·&nbsp; SOLANA BLOCKCHAIN &nbsp;·&nbsp; $XI &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; LAUNCHED ON MOONSHOT &nbsp;·&nbsp; SOLANA BLOCKCHAIN &nbsp;·&nbsp;
+    </div>
+  </div>
+
+  <!-- Background characters -->
+
+  <div class="stars-bg">
+    <div class="float-char">习</div>
+    <div class="float-char">币</div>
+    <div class="float-char">月</div>
+  </div>
+
+  <!-- Coin -->
+
+ <div class="coin-wrapper" style="margin-top: 60px;">
+  <img src="images/logoo.jpeg" alt="$XI Logo" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover;">
+</div>
+
+  <div class="hero-title">$XI</div>
+  <div class="hero-sub">人民的硬币 &nbsp;·&nbsp; The People's Coin</div>
+
+  <p class="hero-desc">
+    The most powerful meme coin on Solana. Forged in the fires of the internet,
+    backed by the will of the people. On Moonshot. On-chain. Unstoppable.
+  </p>
+
+  <div class="btns">
+  <!-- <a href="https://moonshot.money" target="_blank" class="btn btn-primary">🚀 Buy on Moonshot</a> -->
+    <a href="https://x.com/jinpingxi_coin" target="_blank" class="btn btn-secondary">𝕏 Follow @jinpingxi_coin</a>
+  </div>
+
+  <!-- Stats -->
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-label">Network</div>
+      <div class="stat-value">Solana</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Platform</div>
+      <div class="stat-value">Moonshot</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Supply</div>
+      <div class="stat-value">1B</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Tax</div>
+      <div class="stat-value">0%</div>
+    </div>
+  </div>
+</section>
+
+<div class="diagonal"></div>
+
+<!-- ABOUT -->
+
+<section style="background: var(--dark); padding: 80px 20px;">
+  <div class="section" style="padding: 0;">
+    <div class="section-label">// About $XI</div>
+    <div class="section-title">For the <span>People.</span><br>By the People.</div>
+
+
+<div class="manifesto">
+  <div class="manifesto-text">
+    <p>
+      $XI is not just a coin. It is a movement. A decentralized act of
+      cultural expression, launched on Moonshot and powered by the fastest
+      blockchain on earth — Solana.
+    </p>
+    <div class="quote-block">
+      "Power belongs to those who hold the coin."<br>
+      <span style="font-size:13px; opacity:0.6;">— The $XI Manifesto</span>
+    </div>
+    <p>
+      Born from the internet's eternal love of political satire and meme
+      culture, $XI joins the great tradition of coins that turn power
+      on its head. No presale. No team wallets. No secrets.
+      Just the chain, the meme, and the community.
+    </p>
+  </div>
+
+  <div class="poster-panel">
+    <div class="poster-stars">★ ★ ★ ★ ★</div>
+    <div class="poster-title">官方宣言<br>Official Declaration</div>
+    <div class="poster-body">
+      The revolution will be tokenized.<br><br>
+      ✦ Fair launch on Moonshot<br>
+      ✦ 0% buy / sell tax<br>
+      ✦ Renounced contract<br>
+      ✦ Liquidity burned<br>
+      ✦ Community governed<br><br>
+      This coin has no affiliation with any government or political party.
+      It is pure meme. Pure culture. Pure chaos.
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</section>
+
+<!-- MARQUEE DIVIDER -->
+
+<div class="marquee-bottom">
+  <div class="marquee-content">
+    &nbsp;&nbsp;&nbsp;习近平币 &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; $XI ON SOLANA &nbsp;·&nbsp; MOONSHOT LAUNCH &nbsp;·&nbsp; 人民的硬币 &nbsp;·&nbsp; WE ARE ALL XI &nbsp;·&nbsp; 习近平币 &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; $XI ON SOLANA &nbsp;·&nbsp; MOONSHOT LAUNCH &nbsp;·&nbsp; 人民的硬币 &nbsp;·&nbsp; WE ARE ALL XI &nbsp;·&nbsp; 习近平币 &nbsp;·&nbsp; THE PEOPLE'S COIN &nbsp;·&nbsp; $XI ON SOLANA &nbsp;·&nbsp; MOONSHOT LAUNCH &nbsp;·&nbsp; 人民的硬币 &nbsp;·&nbsp; WE ARE ALL XI &nbsp;·&nbsp;
+  </div>
+</div>
+
+<!-- TOKENOMICS -->
+
+<section class="tokenomics-section">
+  <div class="section" style="padding: 0;">
+    <div class="section-label">// Tokenomics</div>
+    <div class="section-title">Simple.<br><span>Transparent.</span></div>
+
+
+<div class="token-grid">
+  <div class="token-card">
+    <div class="token-icon">🪙</div>
+    <div class="token-num">1B</div>
+    <div class="token-label">Total Supply</div>
+  </div>
+  <div class="token-card">
+    <div class="token-icon">🔥</div>
+    <div class="token-num">100%</div>
+    <div class="token-label">Liquidity Burned</div>
+  </div>
+  <div class="token-card">
+    <div class="token-icon">📜</div>
+    <div class="token-num">0%</div>
+    <div class="token-label">Buy / Sell Tax</div>
+  </div>
+  <div class="token-card">
+    <div class="token-icon">🌕</div>
+    <div class="token-num">SOL</div>
+    <div class="token-label">Blockchain</div>
+  </div>
+</div>
+
+
+  </div>
+</section>
+
+<!-- ROADMAP -->
+
+<section style="background: var(--dark);">
+  <div class="roadmap">
+    <div class="section-label">// Roadmap</div>
+    <div class="section-title">The <span>Long March</span><br>Forward</div>
+
+
+<div class="road-items">
+  <div class="road-item">
+    <div class="road-num">01</div>
+    <div class="road-content">
+      <div class="road-phase">Phase I — Launch</div>
+      <div class="road-title">The People Rise</div>
+      <div class="road-desc">Fair launch on Moonshot. Community formation. Twitter / X presence established. The meme awakens.</div>
+    </div>
+  </div>
+
+  <div class="road-item">
+    <div class="road-num">02</div>
+    <div class="road-content">
+      <div class="road-phase">Phase II — Community</div>
+      <div class="road-title">Strength in Numbers</div>
+      <div class="road-desc">1,000 holders milestone. Community meme competitions. Telegram & Discord growth. Dex listing and trending.</div>
+    </div>
+  </div>
+
+  <div class="road-item">
+    <div class="road-num">03</div>
+    <div class="road-content">
+      <div class="road-phase">Phase III — Expansion</div>
+      <div class="road-title">Go Global</div>
+      <div class="road-desc">CEX listings. Viral meme campaigns. 10,000 holder milestone. $XI merch drop. The coin goes international.</div>
+    </div>
+  </div>
+
+  <div class="road-item">
+    <div class="road-num">04</div>
+    <div class="road-content">
+      <div class="road-phase">Phase IV — The Summit</div>
+      <div class="road-title">Moon or Bust</div>
+      <div class="road-desc">Top meme coin charts. Major exchange listings. The world acknowledges the People's Coin. 月球! 🌕</div>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer-section">
+  <div class="section-label" style="font-size: 11px;">// Find $XI</div>
+  <div class="section-title" style="font-size: 50px; margin-bottom: 10px;">Join the <span>Revolution</span></div>
+
+  <div class="social-links">
+    <a href="https://x.com/jinpingxi_coin" target="_blank" class="social-link">
+      𝕏 &nbsp; Twitter / X
+    </a>
+   <!--  <a href="https://moonshot.money" target="_blank" class="social-link">
+      🚀 &nbsp; Buy on Moonshot
+    </a> -->
+  </div>
+
+  <div class="footer-logo">$XI</div>
+
+  <p class="disclaimer">
+    $XI is a meme coin with no intrinsic value or expectation of financial return.
+    This is satire and entertainment. Not financial advice. Crypto assets are highly volatile.
+    Never invest more than you can afford to lose. $XI is not affiliated with any
+    government, political party, or individual.
+  </p>
+</footer>
+
+</body>
+</html>
